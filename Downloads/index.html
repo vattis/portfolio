@@ -303,27 +303,26 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: var(--gradient-1);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      background: linear-gradient(135deg, #1b2838 0%, #2a475e 100%);
+      opacity: 1;
     }
 
-    .project-card:nth-child(2)::before {
-      background: var(--gradient-2);
+    .project-card.airoad::before {
+      background: linear-gradient(135deg, #9b59b6 0%, #e74c3c 100%);
     }
 
-    .project-card:nth-child(3)::before {
-      background: var(--gradient-3);
+    .project-card.chzscout::before {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+
+    .project-card.steam::before {
+      background: linear-gradient(135deg, #4a5568 0%, #667eea 100%);
     }
 
     .project-card:hover {
       transform: translateY(-4px);
       border-color: transparent;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .project-card:hover::before {
-      opacity: 1;
     }
 
     .project-header {
@@ -539,6 +538,10 @@
       <h2 class="section-title"><span class="icon">📌</span> Basic Info</h2>
       <div class="info-grid">
         <div class="info-item">
+          <span class="label">전화번호</span>
+          <span class="value">010-8627-8895</span>
+        </div>
+        <div class="info-item info-highlight">
           <span class="label">생년월일</span>
           <span class="value">1999.07.26</span>
         </div>
@@ -546,7 +549,7 @@
           <span class="label">학력</span>
           <span class="value">광운대학교 소프트웨어공학부</span>
         </div>
-        <div class="info-item info-highlight">
+        <div class="info-item">
           <span class="label">학점</span>
           <span class="value">4.12 / 4.5 (3학년 2학기 수석)</span>
         </div>
@@ -557,10 +560,6 @@
         <div class="info-item info-highlight">
           <span class="label">자격증</span>
           <span class="value">정보처리기사</span>
-        </div>
-        <div class="info-item info-highlight">
-          <span class="label">알고리즘</span>
-          <span class="value"><a href="https://github.com/vattis/Hong-SeungKi" target="_blank" style="color: var(--accent-blue); text-decoration: none;">백준 Platinum</a></span>
         </div>
       </div>
     </section>
@@ -629,7 +628,7 @@
     <section class="section">
       <h2 class="section-title"><span class="icon">💼</span> Projects</h2>
       
-      <div class="project-card">
+      <div class="project-card airoad">
         <div class="project-header">
           <h3 class="project-title">Airoad</h3>
           <div class="project-meta">
@@ -670,7 +669,7 @@
         </div>
       </div>
 
-      <div class="project-card">
+      <div class="project-card chzscout">
         <div class="project-header">
           <h3 class="project-title">치스카우트</h3>
           <div class="project-meta">
@@ -711,7 +710,7 @@
         </div>
       </div>
 
-      <div class="project-card">
+      <div class="project-card steam">
         <div class="project-header">
           <h3 class="project-title">Steam Clone</h3>
           <div class="project-meta">
