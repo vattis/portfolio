@@ -657,6 +657,10 @@
         chzscout: new Carousel('chzscout-carousel', 'chzscout-indicators', 'chzscout-current')
       };
 
+      // 탭 버튼, 패널 선택
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+
       // 현재 활성 탭 (URL 파라미터가 있으면 해당 탭, 없으면 기본값)
       let activeTab = tabParam && ['airoad', 'chzscout', 'steam'].includes(tabParam) ? tabParam : 'airoad';
 
@@ -671,10 +675,6 @@
         if (targetButton) targetButton.classList.add('active');
         if (targetPanel) targetPanel.classList.add('active');
       }
-
-      // 탭 전환 기능
-      const tabButtons = document.querySelectorAll('.tab-button');
-      const tabPanels = document.querySelectorAll('.tab-panel');
 
       tabButtons.forEach(button => {
         button.addEventListener('click', function() {
