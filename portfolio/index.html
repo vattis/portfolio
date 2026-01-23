@@ -125,42 +125,35 @@
       height: 18px;
     }
 
-    /* Email Copy Tooltip */
+    /* Email Copy Toast */
     .email-copy {
       position: relative;
       cursor: pointer;
     }
 
-    .copy-tooltip {
-      position: absolute;
-      bottom: 100%;
+    .copy-toast {
+      position: fixed;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent-green);
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(77, 182, 172, 0.95);
       color: #fff;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12px;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 500;
       white-space: nowrap;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.2s ease;
-      margin-bottom: 8px;
+      transition: all 0.3s ease;
+      z-index: 9999;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     }
 
-    .copy-tooltip::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-top-color: var(--accent-green);
-    }
-
-    .copy-tooltip.show {
+    .copy-toast.show {
       opacity: 1;
       visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
     }
 
     /* Section Styles */
@@ -532,8 +525,8 @@
             <polyline points="22,6 12,13 2,6"/>
           </svg>
           <span id="email-text"></span>
-          <span class="copy-tooltip">복사됨!</span>
         </a>
+        <div id="copy-toast" class="copy-toast">✓ 이메일이 복사되었습니다!</div>
         <script>
           (function() {
             var u = 'andrew0726';
@@ -544,10 +537,10 @@
             e.preventDefault();
             var email = 'andrew0726' + '@' + 'naver.com';
             navigator.clipboard.writeText(email).then(function() {
-              var tooltip = e.currentTarget.querySelector('.copy-tooltip');
-              tooltip.classList.add('show');
+              var toast = document.getElementById('copy-toast');
+              toast.classList.add('show');
               setTimeout(function() {
-                tooltip.classList.remove('show');
+                toast.classList.remove('show');
               }, 1500);
             });
           }
