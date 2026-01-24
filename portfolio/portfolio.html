@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - 홍승기</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #191919;
+      --bg-secondary: #252525;
+      --bg-card: #2d2d2d;
+      --bg-hover: #363636;
+      --text-primary: #ebebeb;
+      --text-secondary: #9b9b9b;
+      --text-muted: #6b6b6b;
+      --border-color: #383838;
+      --accent-purple: #9b59b6;
+      --accent-green: #11998e;
+      --accent-blue: #667eea;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 40px 24px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 32px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--text-primary);
+    }
+
+    .back-link svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 36px;
+      background: linear-gradient(135deg, #fff 0%, #9b9b9b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* 탭 컨테이너 */
+    .tabs-container {
+      position: relative;
+    }
+
+    /* 탭 헤더 */
+    .tabs-header {
+      display: flex;
+      gap: 4px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .tab-button {
+      position: relative;
+      padding: 16px 40px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-bottom: none;
+      border-radius: 12px 12px 0 0;
+      color: var(--text-secondary);
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      transform: translateY(4px);
+    }
+
+    .tab-button:hover {
+      background: var(--bg-card);
+      color: var(--text-primary);
+    }
+
+    .tab-button.active {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      transform: translateY(0);
+      z-index: 20;
+    }
+
+    .tab-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 12px 12px 0 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .tab-button[data-tab="airoad"]::before {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .tab-button[data-tab="chzscout"]::before {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+
+    .tab-button[data-tab="steam"]::before {
+      background: linear-gradient(135deg, #4a5568 0%, #667eea 100%);
+    }
+
+    .tab-button.active::before {
+      opacity: 1;
+    }
+
+    /* 콘텐츠 영역 */
+    .tabs-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 0 16px 16px 16px;
+      position: relative;
+    }
+
+    .tab-panel {
+      display: none;
+      padding: 40px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 캐러셀 스타일 */
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .carousel-inner {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #000;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .carousel-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+    }
+
+    .carousel-slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    /* 네비게이션 버튼 */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 56px;
+      height: 56px;
+      background: rgba(0, 0, 0, 0.7);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(102, 126, 234, 0.9);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .carousel-btn.prev {
+      left: 20px;
+    }
+
+    .carousel-btn.next {
+      right: 20px;
+    }
+
+    /* 프로젝트별 호버 색상 */
+    .tab-panel[data-content="airoad"] .carousel-btn:hover {
+      background: rgba(102, 126, 234, 0.9);
+    }
+
+    .tab-panel[data-content="chzscout"] .carousel-btn:hover {
+      background: rgba(17, 153, 142, 0.9);
+    }
+
+    .tab-panel[data-content="steam"] .carousel-btn:hover {
+      background: rgba(102, 126, 234, 0.9);
+    }
+
+    /* 전체화면 버튼 */
+    .fullscreen-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.7);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .fullscreen-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* 전체화면 모드 */
+    .carousel.fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      z-index: 9999;
+      background: #000;
+      border-radius: 0;
+    }
+
+    .carousel.fullscreen .carousel-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      aspect-ratio: auto;
+    }
+
+    /* 인디케이터 */
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .indicator:hover {
+      background: var(--text-secondary);
+    }
+
+    .indicator.active {
+      background: var(--accent-blue);
+      transform: scale(1.2);
+    }
+
+    .tab-panel[data-content="chzscout"] .indicator.active {
+      background: var(--accent-green);
+    }
+
+    .tab-panel[data-content="steam"] .indicator.active {
+      background: var(--accent-blue);
+    }
+
+    /* 슬라이드 카운터 */
+    .slide-counter {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .slide-counter .current {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* 키보드 힌트 */
+    .keyboard-hint {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .keyboard-hint kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 16px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .tabs-header {
+        flex-wrap: wrap;
+      }
+
+      .tab-button {
+        padding: 12px 20px;
+        font-size: 14px;
+        flex: 1;
+        min-width: 100px;
+        text-align: center;
+      }
+
+      .tab-panel {
+        padding: 20px;
+      }
+
+      .carousel-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+      }
+
+      .carousel-btn.prev {
+        left: 10px;
+      }
+
+      .carousel-btn.next {
+        right: 10px;
+      }
+
+      .keyboard-hint {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      홈으로
+    </a>
+    
+    <h1>Portfolio</h1>
+
+    <div class="tabs-container">
+      <div class="tabs-header">
+        <button class="tab-button active" data-tab="airoad">AIROAD</button>
+        <button class="tab-button" data-tab="chzscout">ChzScout</button>
+        <button class="tab-button" data-tab="steam">Steam Clone</button>
+      </div>
+
+      <div class="tabs-content">
+        <!-- AIROAD -->
+        <div class="tab-panel active" data-content="airoad">
+          <div class="carousel" id="airoad-carousel">
+            <div class="carousel-inner">
+              <div class="carousel-slide active"><img src="slides-airoad/slide-01.png" alt="Slide 1"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-02.png" alt="Slide 2"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-03.png" alt="Slide 3"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-04.png" alt="Slide 4"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-05.png" alt="Slide 5"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-06.png" alt="Slide 6"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-07.png" alt="Slide 7"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-08.png" alt="Slide 8"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-09.png" alt="Slide 9"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-10.png" alt="Slide 10"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-11.png" alt="Slide 11"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-12.png" alt="Slide 12"></div>
+              <div class="carousel-slide"><img src="slides-airoad/slide-13.png" alt="Slide 13"></div>
+            </div>
+            <button class="carousel-btn prev" title="이전 슬라이드">‹</button>
+            <button class="carousel-btn next" title="다음 슬라이드">›</button>
+            <button class="fullscreen-btn" title="전체화면">⛶</button>
+          </div>
+          <div class="carousel-indicators" id="airoad-indicators">
+            <span class="indicator active" data-index="0"></span>
+            <span class="indicator" data-index="1"></span>
+            <span class="indicator" data-index="2"></span>
+            <span class="indicator" data-index="3"></span>
+            <span class="indicator" data-index="4"></span>
+            <span class="indicator" data-index="5"></span>
+            <span class="indicator" data-index="6"></span>
+            <span class="indicator" data-index="7"></span>
+            <span class="indicator" data-index="8"></span>
+            <span class="indicator" data-index="9"></span>
+            <span class="indicator" data-index="10"></span>
+            <span class="indicator" data-index="11"></span>
+            <span class="indicator" data-index="12"></span>
+          </div>
+          <div class="slide-counter">
+            <span class="current" id="airoad-current">1</span> / <span id="airoad-total">13</span>
+          </div>
+          <div class="keyboard-hint">
+            <kbd>←</kbd> <kbd>→</kbd> 슬라이드 이동 &nbsp;|&nbsp; <kbd>F</kbd> 전체화면 &nbsp;|&nbsp; <kbd>ESC</kbd> 나가기
+          </div>
+        </div>
+
+        <!-- 치스카우트 -->
+        <div class="tab-panel" data-content="chzscout">
+          <div class="carousel" id="chzscout-carousel">
+            <div class="carousel-inner">
+              <div class="carousel-slide active"><img src="slides-chzscout/slide-01.png" alt="Slide 1"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-02.png" alt="Slide 2"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-03.png" alt="Slide 3"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-04.png" alt="Slide 4"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-05.png" alt="Slide 5"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-06.png" alt="Slide 6"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-07.png" alt="Slide 7"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-08.png" alt="Slide 8"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-09.png" alt="Slide 9"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-10.png" alt="Slide 10"></div>
+              <div class="carousel-slide"><img src="slides-chzscout/slide-11.png" alt="Slide 11"></div>
+            </div>
+            <button class="carousel-btn prev" title="이전 슬라이드">‹</button>
+            <button class="carousel-btn next" title="다음 슬라이드">›</button>
+            <button class="fullscreen-btn" title="전체화면">⛶</button>
+          </div>
+          <div class="carousel-indicators" id="chzscout-indicators">
+            <span class="indicator active" data-index="0"></span>
+            <span class="indicator" data-index="1"></span>
+            <span class="indicator" data-index="2"></span>
+            <span class="indicator" data-index="3"></span>
+            <span class="indicator" data-index="4"></span>
+            <span class="indicator" data-index="5"></span>
+            <span class="indicator" data-index="6"></span>
+            <span class="indicator" data-index="7"></span>
+            <span class="indicator" data-index="8"></span>
+            <span class="indicator" data-index="9"></span>
+            <span class="indicator" data-index="10"></span>
+          </div>
+          <div class="slide-counter">
+            <span class="current" id="chzscout-current">1</span> / <span id="chzscout-total">11</span>
+          </div>
+          <div class="keyboard-hint">
+            <kbd>←</kbd> <kbd>→</kbd> 슬라이드 이동 &nbsp;|&nbsp; <kbd>F</kbd> 전체화면 &nbsp;|&nbsp; <kbd>ESC</kbd> 나가기
+          </div>
+        </div>
+
+        <!-- Steam Clone -->
+        <div class="tab-panel" data-content="steam">
+          <div class="carousel" id="steam-carousel">
+            <div class="carousel-inner">
+              <div class="carousel-slide active"><img src="slides-steam/slide-01.png" alt="Slide 1"></div>
+              <div class="carousel-slide"><img src="slides-steam/slide-02.png" alt="Slide 2"></div>
+              <div class="carousel-slide"><img src="slides-steam/slide-03.png" alt="Slide 3"></div>
+              <div class="carousel-slide"><img src="slides-steam/slide-04.png" alt="Slide 4"></div>
+              <div class="carousel-slide"><img src="slides-steam/slide-05.png" alt="Slide 5"></div>
+            </div>
+            <button class="carousel-btn prev" title="이전 슬라이드">‹</button>
+            <button class="carousel-btn next" title="다음 슬라이드">›</button>
+            <button class="fullscreen-btn" title="전체화면">⛶</button>
+          </div>
+          <div class="carousel-indicators" id="steam-indicators">
+            <span class="indicator active" data-index="0"></span>
+            <span class="indicator" data-index="1"></span>
+            <span class="indicator" data-index="2"></span>
+            <span class="indicator" data-index="3"></span>
+            <span class="indicator" data-index="4"></span>
+          </div>
+          <div class="slide-counter">
+            <span class="current" id="steam-current">1</span> / <span id="steam-total">5</span>
+          </div>
+          <div class="keyboard-hint">
+            <kbd>←</kbd> <kbd>→</kbd> 슬라이드 이동 &nbsp;|&nbsp; <kbd>F</kbd> 전체화면 &nbsp;|&nbsp; <kbd>ESC</kbd> 나가기
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DOM 로드 후 실행
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // URL 파라미터에서 탭 정보 가져오기
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get('tab');
+      
+      // 캐러셀 클래스
+      class Carousel {
+        constructor(carouselId, indicatorsId, currentId) {
+          this.carousel = document.getElementById(carouselId);
+          if (!this.carousel) return;
+          
+          this.slides = this.carousel.querySelectorAll('.carousel-slide');
+          this.indicators = document.getElementById(indicatorsId).querySelectorAll('.indicator');
+          this.currentEl = document.getElementById(currentId);
+          this.currentIndex = 0;
+          this.totalSlides = this.slides.length;
+          this.isFullscreen = false;
+
+          this.init();
+        }
+
+        init() {
+          const prevBtn = this.carousel.querySelector('.prev');
+          const nextBtn = this.carousel.querySelector('.next');
+          const fullscreenBtn = this.carousel.querySelector('.fullscreen-btn');
+
+          if (prevBtn) prevBtn.addEventListener('click', () => this.prev());
+          if (nextBtn) nextBtn.addEventListener('click', () => this.next());
+          if (fullscreenBtn) fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
+
+          // 인디케이터 이벤트
+          this.indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => this.goTo(index));
+          });
+
+          // 스와이프 이벤트 (모바일)
+          let touchStartX = 0;
+          let touchEndX = 0;
+
+          this.carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+          });
+
+          this.carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) this.next();
+            if (touchEndX - touchStartX > 50) this.prev();
+          });
+        }
+
+        updateSlide() {
+          this.slides.forEach((slide, index) => {
+            slide.classList.toggle('active', index === this.currentIndex);
+          });
+          this.indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === this.currentIndex);
+          });
+          if (this.currentEl) {
+            this.currentEl.textContent = this.currentIndex + 1;
+          }
+        }
+
+        prev() {
+          this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+          this.updateSlide();
+        }
+
+        next() {
+          this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+          this.updateSlide();
+        }
+
+        goTo(index) {
+          this.currentIndex = index;
+          this.updateSlide();
+        }
+
+        toggleFullscreen() {
+          this.isFullscreen = !this.isFullscreen;
+          this.carousel.classList.toggle('fullscreen', this.isFullscreen);
+          document.body.style.overflow = this.isFullscreen ? 'hidden' : '';
+        }
+      }
+
+      // 캐러셀 인스턴스 생성
+      const carousels = {
+        airoad: new Carousel('airoad-carousel', 'airoad-indicators', 'airoad-current'),
+        chzscout: new Carousel('chzscout-carousel', 'chzscout-indicators', 'chzscout-current'),
+        steam: new Carousel('steam-carousel', 'steam-indicators', 'steam-current')
+      };
+
+      // 탭 버튼, 패널 선택
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+
+      // 현재 활성 탭 (URL 파라미터가 있으면 해당 탭, 없으면 기본값)
+      let activeTab = tabParam && ['airoad', 'chzscout', 'steam'].includes(tabParam) ? tabParam : 'airoad';
+
+      // URL 파라미터로 탭이 지정된 경우 해당 탭 활성화
+      if (tabParam && ['airoad', 'chzscout', 'steam'].includes(tabParam)) {
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabPanels.forEach(panel => panel.classList.remove('active'));
+
+        const targetButton = document.querySelector(`.tab-button[data-tab="${tabParam}"]`);
+        const targetPanel = document.querySelector(`.tab-panel[data-content="${tabParam}"]`);
+        
+        if (targetButton) targetButton.classList.add('active');
+        if (targetPanel) targetPanel.classList.add('active');
+      }
+
+      tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const targetTab = this.dataset.tab;
+
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          tabPanels.forEach(panel => panel.classList.remove('active'));
+
+          this.classList.add('active');
+          document.querySelector(`.tab-panel[data-content="${targetTab}"]`).classList.add('active');
+
+          activeTab = targetTab;
+        });
+      });
+
+      // 전역 키보드 이벤트
+      document.addEventListener('keydown', function(e) {
+        const currentCarousel = carousels[activeTab];
+        if (!currentCarousel) return;
+        
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          currentCarousel.prev();
+        }
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          currentCarousel.next();
+        }
+        if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          currentCarousel.toggleFullscreen();
+        }
+        if (e.key === 'Escape' && currentCarousel.isFullscreen) {
+          currentCarousel.toggleFullscreen();
+        }
+      });
+
+    });
+  </script>
+</body>
+</html>
