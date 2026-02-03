@@ -519,32 +519,14 @@
       <h1>홍승기</h1>
       <p class="hero-subtitle">성장을 멈추지 않는 백엔드 개발자</p>
       <div class="hero-links">
-        <a href="#" class="hero-link email-copy" onclick="copyEmail(event)" title="클릭하여 복사">
+        <a href="mailto:andrew0726@naver.com" class="hero-link" title="이메일 보내기">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
             <polyline points="22,6 12,13 2,6"/>
           </svg>
-          <span id="email-text"></span>
+          andrew0726@naver.com
         </a>
         <div id="copy-toast" class="copy-toast">✓ 이메일이 복사되었습니다!</div>
-        <script>
-          (function() {
-            var u = 'andrew0726';
-            var d = 'naver.com';
-            document.getElementById('email-text').textContent = u + '@' + d;
-          })();
-          function copyEmail(e) {
-            e.preventDefault();
-            var email = 'andrew0726' + '@' + 'naver.com';
-            navigator.clipboard.writeText(email).then(function() {
-              var toast = document.getElementById('copy-toast');
-              toast.classList.add('show');
-              setTimeout(function() {
-                toast.classList.remove('show');
-              }, 1500);
-            });
-          }
-        </script>
         <a href="https://github.com/vattis" target="_blank" class="hero-link">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
@@ -705,7 +687,7 @@
             </svg>
             GitHub
           </a>
-          <a href="https://blog.naver.com/andrew0726/224027725855" target="_blank" class="project-link">
+          <a href="https://blog.naver.com/andrew0726/224099634436" target="_blank" class="project-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
@@ -724,9 +706,10 @@
         </div>
         <div class="project-features-title">주요 구현 기능</div>
         <div class="project-features">
-          <div class="feature-item">웹 소켓 STOMP 통신 설계</div>
+          <div class="feature-item">웹 소켓 STOMP 통신 설계 (2단계 보안 구조, 채널 분리)</div>
           <div class="feature-item">실시간 1대1 채팅 구현</div>
-          <div class="feature-item">Open API 데이터 베이스화</div>
+          <div class="feature-item">이벤트 기반 비동기 구조 (일차별 실시간 전달)</div>
+          <div class="feature-item">Tour API 5만 건 관광지 데이터 DB화</div>
           <div class="feature-item">CRUD API 개발</div>
           <div class="feature-item">DB 주요 정보 암호화</div>
         </div>
@@ -735,7 +718,7 @@
           <span class="project-tech-badge">WebSocket</span>
           <span class="project-tech-badge">STOMP</span>
           <span class="project-tech-badge">JPA</span>
-          <span class="project-tech-badge">MySQL</span>
+          <span class="project-tech-badge">PostgreSQL</span>
         </div>
       </div>
 
@@ -774,10 +757,10 @@
         <div class="project-features-title">주요 구현 기능</div>
         <div class="project-features">
           <div class="feature-item">OAuth 2.0 로그인</div>
-          <div class="feature-item">검색어 자동 완성</div>
-          <div class="feature-item">벡터 임베딩 및 유사도 측정</div>
+          <div class="feature-item">검색어 자동 완성 (Redis 캐싱)</div>
+          <div class="feature-item">벡터 임베딩 (토큰 비용 98%↓, 응답 시간 66%↓)</div>
           <div class="feature-item">디스코드 챗봇 연동</div>
-          <div class="feature-item">Virtual Thread</div>
+          <div class="feature-item">Virtual Thread (OS 스레드 84%↓)</div>
           <div class="feature-item">CI/CD 자동화 (GitHub Actions)</div>
         </div>
         <div class="project-tech">
@@ -826,7 +809,7 @@
           <div class="feature-item">이메일 인증 회원가입</div>
           <div class="feature-item">CRUD API 구현</div>
           <div class="feature-item">실시간 1대1 채팅</div>
-          <div class="feature-item">더미 데이터 기반 성능 테스트</div>
+          <div class="feature-item">JMeter 부하 테스트 (초당 1,500건 처리)</div>
         </div>
         <div class="project-tech">
           <span class="project-tech-badge">Spring Boot</span>
